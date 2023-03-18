@@ -534,7 +534,7 @@ def parse_arguments():
     parser.add_argument(
         "--cmake_generator",
         choices=["Visual Studio 15 2017", "Visual Studio 16 2019", "Visual Studio 17 2022", "Ninja"],
-        default="Visual Studio 16 2019" if is_windows() else None,
+        default="Visual Studio 16 2019" if is_windows() else 'Ninja',
         help="Specify the generator that CMake invokes. " "This is only supported on Windows",
     )
     parser.add_argument(
@@ -971,6 +971,7 @@ def generate_build_tree(
         "-Donnxruntime_ENABLE_ROCM_PROFILING=" + ("ON" if args.enable_rocm_profiling else "OFF"),
         "-Donnxruntime_USE_XNNPACK=" + ("ON" if args.use_xnnpack else "OFF"),
         "-Donnxruntime_USE_CANN=" + ("ON" if args.use_cann else "OFF"),
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
     ]
     if args.use_cache:
         cmake_args.append("-Donnxruntime_BUILD_CACHE=ON")
